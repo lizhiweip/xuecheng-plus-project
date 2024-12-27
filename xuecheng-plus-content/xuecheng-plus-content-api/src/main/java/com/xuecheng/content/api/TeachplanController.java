@@ -38,6 +38,6 @@ public class TeachplanController {
         teachplanService.saveTeachplan(teachplan);
     }
 /*
-完成课程模块
+完成课程
 * */
 }
