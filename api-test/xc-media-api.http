@@ -1,0 +1,27 @@
+POST {{media_host}}/media/files
+
+pageNo = 1 &
+pageSize = 10
+
+###
+POST {{media_host}}/media/upload/coursefile
+Content-Type: application/json
+
+{}
+
+###
+
+
+POST {{media_host}}/media/upload/coursefile
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="filedata"; filename="1.jpg"
+Content-Type: application/octet-stream
+
+< e:/springboot/学成在线/day04 项目实战/资料/1.jpg
+
+
+
+POST {{media_host}}/media/upload/coursefile
+Content-Type: multipart/form-data; boundary=WebAppBoundary
