@@ -9,10 +9,12 @@ import com.xuecheng.base.model.PageParams;
 import com.xuecheng.base.model.PageResult;
 import com.xuecheng.base.model.RestResponse;
 import com.xuecheng.media.mapper.MediaFilesMapper;
+import com.xuecheng.media.mapper.MediaProcessMapper;
 import com.xuecheng.media.model.dto.QueryMediaParamsDto;
 import com.xuecheng.media.model.dto.UploadFileParamsDto;
 import com.xuecheng.media.model.dto.UploadFileResultDto;
 import com.xuecheng.media.model.po.MediaFiles;
+import com.xuecheng.media.model.po.MediaProcess;
 import com.xuecheng.media.service.MediaFileService;
 import io.minio.*;
 import io.minio.errors.*;
@@ -57,6 +59,9 @@ public class MediaFileServiceImpl implements MediaFileService {
 
     @Autowired
     MediaFileService currentProxy;
+
+    @Autowired
+    MediaProcessMapper mediaProcessMapper;
 
     //存储普通文件
     @Value("${minio.bucket.files}")
@@ -221,12 +226,51 @@ public class MediaFileServiceImpl implements MediaFileService {
                 log.debug("向数据库保存文件失败,bucket:{},objectName:{}",bucket,objectName);
                 return null;
             }
+            //记录待处理的任务
+           addWaitingTask(mediaFiles);
+
+
+
+
+
             return mediaFiles;
 
         }
         return mediaFiles;
 
     }
+
+    /**
+     * 添加待处理任务
+     * @param mediaFiles 媒资文件信息
+     */
+    private void addWaitingTask(MediaFiles mediaFiles){
+
+        //文件名称
+        String filename = mediaFiles.getFilename();
+        //扩展名
+        String extension = filename.substring(filename.lastIndexOf("."));
+        //获取文件的mimetype
+        String mimeType = getMimeType(extension);
+        if(mimeType.equals("video/x-msvideo")){
+            MediaProcess mediaProcess = new MediaProcess();
+            BeanUtils.copyProperties(mediaFiles,mediaProcess);
+            //状态
+            mediaProcess.setStatus("1");
+            mediaProcess.setCreateDate(LocalDateTime.now());
+            mediaProcess.setFailCount(0);
+            mediaProcess.setUrl(null);
+            mediaProcessMapper.insert(mediaProcess);
+
+
+        }
+
+
+        //通过mimetype判断如果是avi视频写入待处理任务
+
+    }
+
+
 
     private String getFilePathByMd5(String fileMd5,String fileExt){
         return   fileMd5.substring(0,1) + "/" + fileMd5.substring(1,2) + "/" + fileMd5 + "/" +fileMd5 +fileExt;
