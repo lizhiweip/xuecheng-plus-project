@@ -1,0 +1,8 @@
+### 申请验证码
+POST {{checkcode_host}}/checkcode/pic
+
+### 校验验证码
+POST {{checkcode_host}}/checkcode/verify?key=checkcode:22497079438c476384806800871b83b4&code=SYOD
+
+### 校验验证码
+POST {{checkcode_host}}/checkcode/verify?key=checkcode:77b34488d25e41e5be0f342f295ac31a&code=ZYR8

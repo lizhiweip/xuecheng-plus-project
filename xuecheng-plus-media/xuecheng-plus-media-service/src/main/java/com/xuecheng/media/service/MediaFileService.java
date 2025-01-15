@@ -21,6 +21,7 @@ import java.util.List;
  */
 public interface MediaFileService {
 
+   MediaFiles getFileById(String mediaId);
  /**
   * @description 媒资文件查询方法
   * @param pageParams 分页参数
@@ -38,7 +39,7 @@ public interface MediaFileService {
   * @param localFilePath 文件本地路径
   * @return UploadFileResultDto
   */
- public UploadFileResultDto uploadFile(Long companyId, UploadFileParamsDto uploadFileParamsDto, String localFilePath);
+ public UploadFileResultDto uploadFile(Long companyId, UploadFileParamsDto uploadFileParamsDto, String localFilePath, String objectName);
 
  public MediaFiles addMediaFilesToDb(Long companyId,String fileMd5,UploadFileParamsDto uploadFileParamsDto,String bucket,String objectName);
  public RestResponse<Boolean> checkChunk(String fileMd5, int chunkIndex);

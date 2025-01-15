@@ -1,0 +1,2 @@
+GET {{search_host}}/search/course/list?pageNo=1&keyword=spring
+Content-Type: application/json

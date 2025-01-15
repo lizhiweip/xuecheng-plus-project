@@ -4,16 +4,23 @@ spring:
   cloud:
     nacos:
       server-addr: 192.168.101.65:8848
+      discovery: #服务注册相关配置
+        namespace: dev
+        group: xuecheng-plus-project
       config: #配置文件相关配置
         namespace: dev
         group: xuecheng-plus-project
         file-extension: yaml
         refresh-enabled: true
+        shared-configs:
+          - data-id: feign-${spring.profiles.active}.yaml
+            group: xuecheng-plus-common
+            refresh: true
   profiles:
     active: dev
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.101.65:3306/xc2.0_content?serverTimezone=UTC&userUnicode=true&useSSL=false&
+    url: jdbc:mysql://192.168.101.65:3306/xcplus_content?serverTimezone=UTC&userUnicode=true&useSSL=false&
     username: root
     password: mysql
 #   日志文件配置路径
