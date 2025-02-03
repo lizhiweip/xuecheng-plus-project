@@ -41,4 +41,5 @@ public interface CoursePublishService {
      */
     public void  uploadCourseHtml(Long courseId,File file);
     public CoursePublish getCoursePublish(Long courseId);
+    public CoursePublish getCoursePublishCache(Long courseId);
 }
