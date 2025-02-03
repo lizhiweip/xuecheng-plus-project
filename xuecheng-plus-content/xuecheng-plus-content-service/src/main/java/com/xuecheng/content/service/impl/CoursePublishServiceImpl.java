@@ -300,7 +300,7 @@ public class CoursePublishServiceImpl implements CoursePublishService {
                 }
                 return coursePublish;
             }finally {
-                //手动释放锁
+                //手动释放
                 lock.unlock();
             }
         }
